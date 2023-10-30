@@ -6,11 +6,27 @@ class Movies extends Component {
   state = {
     movies: movies.getMovies(),
   };
+
+  deleteMovie(id) {
+    let newmovies = this.state.movies.filter((movie) => movie._id != id);
+    this.setState({ movies: newmovies });
+  }
+
+  getOutput() {
+    let movieLength = this.state.movies.length;
+    if (movieLength === 0) {
+      document.getElementById("table").style.display = "none";
+      return "There are no movies in the database";
+    }
+
+    return "There are " + movieLength + " in the database";
+  }
+
   render() {
     return (
       <div className="container">
-        <p>showing movies</p>
-        <table className="table">
+        <p>{this.getOutput()}</p>
+        <table id="table" className="table">
           <tbody>
             <tr>
               <th key={"title"}>Title</th>
@@ -27,7 +43,14 @@ class Movies extends Component {
                   <td key={movie.numberInStock}>{movie.numberInStock}</td>
                   <td key={movie.dailyRentalRate}>{movie.dailyRentalRate}</td>
                   <td>
-                    <button className="btn btn-danger">delete</button>{" "}
+                    <button
+                      onClick={() => {
+                        this.deleteMovie(movie._id);
+                      }}
+                      className="btn btn-danger"
+                    >
+                      delete
+                    </button>{" "}
                   </td>
                 </tr>
               );
