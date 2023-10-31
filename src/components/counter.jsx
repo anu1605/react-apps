@@ -12,8 +12,8 @@ class Counter extends Component {
         }}
         className="container text-center"
       >
-        <div className="row">
-          <div className="col">
+        <div style={{ fontSize: 23 }} className="row">
+          <div style={{ width: 100, margin: "auto" }} className="col-1">
             <span className={this.getBadgeClasses()}>{this.formatValue()}</span>
           </div>
           <div className="col">
@@ -23,18 +23,13 @@ class Counter extends Component {
             >
               +
             </button>
-          </div>
-
-          <div className="col">
             <button
               onClick={() => this.props.onDecrement(this.props.counter)}
-              className="btn btn-secondary"
+              className="btn btn-secondary m-2"
+              disabled={this.props.counter.value === 0}
             >
               -
             </button>
-          </div>
-
-          <div className="col">
             <button
               onClick={() => this.props.onDelete(this.props.counter)}
               className="btn btn-secondary btn-danger"
