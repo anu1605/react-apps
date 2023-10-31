@@ -4,9 +4,9 @@ import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
-// import App from "./App";
+import App from "./App";
 import Movies from "./components/movie";
 import "./movies.css";
 
-createRoot(document.getElementById("root")).render(<Movies />);
+createRoot(document.getElementById("root")).render(<App />);
 registerServiceWorker();
