@@ -8,5 +8,5 @@ import App from "./App";
 import Movies from "./components/movie";
 import "./movies.css";
 
-createRoot(document.getElementById("root")).render(<App />);
+createRoot(document.getElementById("root")).render(<Movies />);
 registerServiceWorker();

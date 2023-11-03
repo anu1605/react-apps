@@ -1,3 +1,35 @@
 .container {
   padding-top: 80px;
 }
+
+.table-row {
+  width: fit-content;
+}
+
+td,
+tr {
+  text-wrap: nowrap;
+}
+
+.reset-btn {
+  margin-bottom: auto;
+  padding: 5px 20px;
+  width: 75px;
+}
+
+.btn-container {
+  display: flex;
+}
+
+.btn-container,
+p {
+  padding: 0 8px;
+}
+
+.page-container {
+  margin-right: auto;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
