@@ -1,3 +1,5 @@
+import { Link, NavLink, Route, Switch } from "react-router-dom";
+
 let Navbar = (props) => {
   return (
     <nav
@@ -8,7 +10,7 @@ let Navbar = (props) => {
       className="navbar navbar-light bg-light"
     >
       <h3 className="navbar-brand">Navbar</h3>
-      <span className="badge badge-pill badge-secondary">{props.count}</span>
+      <Link to="./Movies">Movies</Link>
     </nav>
   );
 };

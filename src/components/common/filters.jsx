@@ -1,6 +1,4 @@
-const Filter = (props) => {
-  const { genres, onFilter, objName, objId, selectedFilter } = props;
-
+const Filter = ({ genres, onFilter, objName, objId, selectedFilter }) => {
   return (
     <div style={{ width: "fit-content" }}>
       <ul className="list-group">

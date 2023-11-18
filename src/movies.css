@@ -6,6 +6,10 @@
   width: fit-content;
 }
 
+.table th {
+  cursor: pointer;
+}
+
 td,
 tr {
   text-wrap: nowrap;

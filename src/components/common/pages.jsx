@@ -1,14 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Pages = (props) => {
-  const { movies, noOfRows, page, onPageClick } = props;
+const Pages = ({ movies, noOfRows, page, onPageClick }) => {
   const noOfPages = Math.ceil(movies.length / noOfRows);
   let i = 1;
+
   let newArray = Array.from({ length: noOfPages }, () => i++);
   if (newArray.length === 1 || newArray.length == 0) {
     return null;
   }
+
   return (
     <div className="page-container">
       <nav aria-label="Page navigation example">
