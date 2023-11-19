@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import Table from "./table";
 import Like from "./like";
+import { Link } from "react-router-dom";
 
 class Movies extends Component {
   columns = [
-    { sortItem: "title", label: "Title" },
+    {
+      sortItem: "title",
+      label: "Title",
+      content: (movie) => (
+        <Link id={movie._id} to={`../movieForm/${movie._id}`}>
+          {movie.title}
+        </Link>
+      ),
+    },
     { sortItem: "genre.name", label: "Genre" },
     { sortItem: "numberInStock", label: "Stock" },
     { sortItem: "dailyRentalRate", label: "Rate" },

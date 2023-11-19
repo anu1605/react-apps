@@ -1,79 +1,34 @@
 import React, { Component } from "react";
 import "./App.css";
-import Counters from "./components/counters";
+
+import Movie from "./components/movie";
+import { Redirect, Route, Switch } from "react-router-dom";
+import MoviesInfo from "./components/Movies";
+import Rentals from "./components/Rentals";
+import Customers from "./components/Customers";
 import Navbar from "./components/navbar";
+import movieForm from "./components/movieForm";
+import NotFound from "./components/notFound";
 
-class App extends Component {
-  state = {
-    counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 },
-    ],
-    originalArray: null,
-  };
+const App = (props) => {
+  return (
+    <div>
+      <Navbar />
+      <div className="container">
+        <Switch>
+          <Route path="/movieForm/:id" component={movieForm} {...props}></Route>
 
-  handleIncrement = (counter) => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index].value++;
-    this.setState({ counters });
-  };
-
-  handdleDecrement = (counter) => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index].value--;
-    this.setState({ counters });
-  };
-
-  handleDelete = (counter) => {
-    if (this.state.originalArray === null) {
-      const originalArray = [...this.state.counters];
-      this.setState({ originalArray });
-    }
-    const counters = [...this.state.counters].filter((c) => c.id != counter.id);
-    this.setState({ counters });
-  };
-
-  handleReset = () => {
-    const counters = [...this.state.originalArray].map((counter) => {
-      let newobject = { ...counter };
-      newobject.value = 0;
-      return newobject;
-    });
-
-    this.setState({ counters });
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <Navbar
-          count={
-            this.state.counters.filter((counter) => counter.value > 0).length
-          }
-        />
-        <main
-          style={{
-            marginLeft: 20,
-            paddingTop: 20,
-          }}
-          role="main"
-          className="container"
-        >
-          <Counters
-            onIncrement={this.handleIncrement}
-            onDecrement={this.handdleDecrement}
-            onDelete={this.handleDelete}
-            onReset={this.handleReset}
-            counters={this.state.counters}
-          />
-        </main>
-      </React.Fragment>
-    );
-  }
-}
+          <Route path="/Movies" component={MoviesInfo}></Route>
+          <Route path="/Customers" component={Customers}></Route>
+          <Route path="/Rentals" component={Rentals}></Route>
+          <Route path="/movie" component={Movie}></Route>
+          <Redirect from="/" exact to="/movie"></Redirect>
+          <Route path="/notFound" component={NotFound}></Route>
+          <Redirect to="/notFound"></Redirect>
+        </Switch>
+      </div>
+    </div>
+  );
+};
 
 export default App;

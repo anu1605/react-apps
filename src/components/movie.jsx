@@ -7,8 +7,6 @@ import Movies from "./common/movies";
 import { getPageContent } from "./utils/pageContent";
 import { getGenres } from "../services/fakeGenreService";
 import Navbar from "./navbar";
-import { Route, Switch } from "react-router-dom";
-import MoviesInfo from "./Movies";
 
 class Movie extends Component {
   state = {
@@ -115,50 +113,42 @@ class Movie extends Component {
   };
 
   render() {
-    console.log("render");
     const { moviesList, length, movies } = this.displayData();
     const { genre, filterSelected, sortingProp, noOfRows, pageCount } =
       this.state;
 
     return (
-      <div className="">
-        <Navbar />
-        <Switch>
-          <Route path="/Movies" component={MoviesInfo}></Route>
-        </Switch>
-
-        <div className=" container">
-          <div className="table-row row">
-            <div className="col">
-              <Filter
-                onFilter={this.handleFilter}
-                genres={genre}
-                selectedFilter={filterSelected}
+      <div>
+        <div className="table-row row">
+          <div className="col">
+            <Filter
+              onFilter={this.handleFilter}
+              genres={genre}
+              selectedFilter={filterSelected}
+            />
+          </div>
+          <div className="col">
+            <Movies
+              movieLength={length}
+              moviesList={moviesList}
+              handleHeart={this.handleHeart}
+              deleteMovie={this.deleteMovie}
+              onSort={this.handleSorting}
+              sortProperties={sortingProp}
+            />
+            <div className="btn-container">
+              <Pages
+                onPageClick={this.handlePages}
+                movies={movies}
+                noOfRows={noOfRows}
+                page={pageCount}
               />
-            </div>
-            <div className="col">
-              <Movies
-                movieLength={length}
-                moviesList={moviesList}
-                handleHeart={this.handleHeart}
-                deleteMovie={this.deleteMovie}
-                onSort={this.handleSorting}
-                sortProperties={sortingProp}
-              />
-              <div className="btn-container">
-                <Pages
-                  onPageClick={this.handlePages}
-                  movies={movies}
-                  noOfRows={noOfRows}
-                  page={pageCount}
-                />
-                <button
-                  onClick={this.handleReset}
-                  className="btn btn-primary reset-btn "
-                >
-                  Reset
-                </button>
-              </div>
+              <button
+                onClick={this.handleReset}
+                className="btn btn-primary reset-btn "
+              >
+                Reset
+              </button>
             </div>
           </div>
         </div>
