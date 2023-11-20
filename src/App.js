@@ -9,6 +9,9 @@ import Customers from "./components/Customers";
 import Navbar from "./components/navbar";
 import movieForm from "./components/movieForm";
 import NotFound from "./components/notFound";
+import LoginForm from "./components/loginForm";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 const App = (props) => {
   return (
@@ -16,6 +19,7 @@ const App = (props) => {
       <Navbar />
       <div className="container">
         <Switch>
+          <Route path="/loginForm" component={LoginForm} {...props}></Route>
           <Route path="/movieForm/:id" component={movieForm} {...props}></Route>
 
           <Route path="/Movies" component={MoviesInfo}></Route>
