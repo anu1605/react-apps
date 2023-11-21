@@ -9,7 +9,7 @@ class Movies extends Component {
       sortItem: "title",
       label: "Title",
       content: (movie) => (
-        <Link id={movie._id} to={`../movieForm/${movie._id}`}>
+        <Link id={movie._id} to={`../Movies/${movie._id}`}>
           {movie.title}
         </Link>
       ),

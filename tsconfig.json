@@ -1,0 +1,23 @@
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "lib": ["dom", "es2015"],
+//     "jsx": "react",
+//     "module": "commonjs",
+//     "moduleResolution": "node",
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "noImplicitAny": false,
+//     "strict": true,
+//     "types": ["node", "react"],
+//     "typeRoots": ["./node_modules/@types", "./typings"]
+//   },
+//   "include": [
+//     "src/**/*.ts",
+//     "src/**/*.d.ts",
+//     "src/**/*.tsx",
+//     "typings/**/*.d.ts"
+//   ],
+//   "exclude": ["node_modules"]
+// }

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./App.css";
 
-import Movie from "./components/movie";
 import { Redirect, Route, Switch } from "react-router-dom";
+import Movie from "./components/movie";
 import MoviesInfo from "./components/Movies";
 import Rentals from "./components/Rentals";
 import Customers from "./components/Customers";
@@ -10,8 +12,7 @@ import Navbar from "./components/navbar";
 import movieForm from "./components/movieForm";
 import NotFound from "./components/notFound";
 import LoginForm from "./components/loginForm";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+import Register from "./components/register";
 
 const App = (props) => {
   return (
@@ -20,8 +21,8 @@ const App = (props) => {
       <div className="container">
         <Switch>
           <Route path="/loginForm" component={LoginForm} {...props}></Route>
-          <Route path="/movieForm/:id" component={movieForm} {...props}></Route>
-
+          <Route path="/register" component={Register} {...props}></Route>
+          <Route path="/Movies/:id" component={movieForm} {...props}></Route>
           <Route path="/Movies" component={MoviesInfo}></Route>
           <Route path="/Customers" component={Customers}></Route>
           <Route path="/Rentals" component={Rentals}></Route>

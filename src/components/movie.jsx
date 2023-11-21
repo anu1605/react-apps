@@ -6,7 +6,6 @@ import "../movies.css";
 import Movies from "./common/movies";
 import { getPageContent } from "./utils/pageContent";
 import { getGenres } from "../services/fakeGenreService";
-import Navbar from "./navbar";
 
 class Movie extends Component {
   state = {
@@ -128,6 +127,7 @@ class Movie extends Component {
             />
           </div>
           <div className="col">
+            <button className="btn btn-primary">New Movie</button>
             <Movies
               movieLength={length}
               moviesList={moviesList}
