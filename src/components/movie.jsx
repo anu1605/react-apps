@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import * as moviesObject from "../services/fakeMovieService";
-import Pages from "./common/pages";
-import Filter from "./common/filters";
 import "../movies.css";
-import Movies from "./common/movies";
+
+import * as moviesObject from "../services/fakeMovieService";
 import { getPageContent } from "./utils/pageContent";
 import { getGenres } from "../services/fakeGenreService";
+import { Link } from "react-router-dom";
+import Pages from "./common/pages";
+import Filter from "./common/filters";
+import Movies from "./common/movies";
+import SearchBox from "./common/searchBox";
 
 class Movie extends Component {
   state = {
@@ -16,6 +19,7 @@ class Movie extends Component {
     pageCount: 1,
     filterSelected: "All Genres",
     sortingProp: { sortItem: "title", order: 1 },
+    search: "",
   };
 
   UNSAFE_componentWillMount() {
@@ -30,8 +34,9 @@ class Movie extends Component {
     let editMovies = moviesObject.getMovies().map((movie) => {
       return { ...movie, heartClass: "fa fa-heart-o" };
     });
-
-    this.setState({ movies: editMovies });
+    let { search } = this.state;
+    search = "";
+    this.setState({ movies: editMovies, search });
   };
 
   deleteMovie = (m) => {
@@ -41,7 +46,7 @@ class Movie extends Component {
     movies = movies.filter((movie) => movie != m);
 
     const filterMovies =
-      filterSelected.toLowerCase() != "all genres"
+      filterSelected.toLowerCase() != "all genres" || filterSelected == ""
         ? movies.filter((movie) => movie.genre.name === filterSelected)
         : movies;
 
@@ -79,7 +84,14 @@ class Movie extends Component {
   };
 
   handleFilter = (genre) => {
-    this.setState({ startIndex: 0, pageCount: 1, filterSelected: genre });
+    let { search } = this.state;
+    search = "";
+    this.setState({
+      startIndex: 0,
+      pageCount: 1,
+      filterSelected: genre,
+      search,
+    });
   };
 
   handleSorting = (sortObject) => {
@@ -97,11 +109,26 @@ class Movie extends Component {
     this.setState({ movies, order, sortingProp: sortObject });
   };
 
+  handleSearch = ({ currentTarget: input }) => {
+    this.setState({
+      search: input.value,
+      filterSelected: "",
+      startIndex: 0,
+      pageCount: 1,
+    });
+  };
+
   displayData = () => {
-    let { movies, startIndex, noOfRows, filterSelected } = this.state;
+    let { movies, startIndex, noOfRows, filterSelected, search } = this.state;
+
+    movies = search
+      ? movies.filter((movie) =>
+          movie.title.toLowerCase().includes(search.toLowerCase())
+        )
+      : movies;
 
     movies =
-      filterSelected.toLowerCase() != "all genres"
+      filterSelected.toLowerCase() != "all genres" && filterSelected != ""
         ? movies.filter((movie) => movie.genre.name === filterSelected)
         : movies;
 
@@ -127,7 +154,15 @@ class Movie extends Component {
             />
           </div>
           <div className="col">
-            <button className="btn btn-primary">New Movie</button>
+            <Link className="btn btn-primary new-movie-btn" to="./Movies/new">
+              New Movie
+            </Link>
+
+            <SearchBox
+              search={this.state.search}
+              onSearch={this.handleSearch}
+            />
+
             <Movies
               movieLength={length}
               moviesList={moviesList}
