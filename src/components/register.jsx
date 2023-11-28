@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
+import * as userService from "../services/userService";
+import auth from "../services/authService";
+import { Redirect } from "react-router-dom";
 
 class Register extends Form {
   state = {
     data: { email: "", password: "", name: "" },
-    errors: "",
+    errors: {},
   };
 
   schema = {
@@ -14,11 +17,22 @@ class Register extends Form {
     name: Joi.string().required().label("Name"),
   };
 
-  doSubmit = () => {
-    console.log("Submitted");
+  doSubmit = async () => {
+    try {
+      const response = await userService.register(this.state.data);
+      auth.loginWithJwt(response.headers["x-auth-token"]);
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
+    if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <h1>Register</h1>

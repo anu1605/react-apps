@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import "../movies.css";
 
-import * as moviesObject from "../services/fakeMovieService";
+import { getMovies, deleteMovie } from "../services/movieService";
 import { getPageContent } from "./utils/pageContent";
-import { getGenres } from "../services/fakeGenreService";
+import { getGenres } from "../services/genreService";
 import { Link } from "react-router-dom";
 import Pages from "./common/pages";
 import Filter from "./common/filters";
 import Movies from "./common/movies";
 import SearchBox from "./common/searchBox";
+import { toast } from "react-toastify";
 
 class Movie extends Component {
   state = {
@@ -20,18 +21,24 @@ class Movie extends Component {
     filterSelected: "All Genres",
     sortingProp: { sortItem: "title", order: 1 },
     search: "",
+    link: "mongodb://127.0.0.1:27017/vidly/genres",
   };
 
-  UNSAFE_componentWillMount() {
-    let editMovies = moviesObject.getMovies().map((movie) => {
+  async UNSAFE_componentWillMount() {
+    const { data } = await getGenres();
+    const { data: movies } = await getMovies();
+
+    let editMovies = movies.map((movie) => {
       return { ...movie, heartClass: "fa fa-heart-o" };
     });
-    const genre = [{ _id: "all", name: "All Genres" }, ...getGenres()];
+
+    const genre = [{ _id: "all", name: "All Genres" }, ...data];
     this.setState({ movies: editMovies, genre });
   }
 
-  handleReset = () => {
-    let editMovies = moviesObject.getMovies().map((movie) => {
+  handleReset = async () => {
+    const { data: movies } = await getMovies();
+    let editMovies = movies.map((movie) => {
       return { ...movie, heartClass: "fa fa-heart-o" };
     });
     let { search } = this.state;
@@ -39,12 +46,23 @@ class Movie extends Component {
     this.setState({ movies: editMovies, search });
   };
 
-  deleteMovie = (m) => {
-    let { movies, startIndex, pageCount, noOfRows, filterSelected } =
-      this.state;
+  handleDelete = async (m) => {
+    let {
+      movies: originalMovies,
+      startIndex,
+      pageCount,
+      noOfRows,
+      filterSelected,
+    } = this.state;
 
-    movies = movies.filter((movie) => movie != m);
-
+    const movies = originalMovies.filter((movie) => movie != m);
+    try {
+      await deleteMovie(m._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("This movie has already been deleted");
+      this.setState({ movies: originalMovies });
+    }
     const filterMovies =
       filterSelected.toLowerCase() != "all genres" || filterSelected == ""
         ? movies.filter((movie) => movie.genre.name === filterSelected)
@@ -142,6 +160,7 @@ class Movie extends Component {
     const { moviesList, length, movies } = this.displayData();
     const { genre, filterSelected, sortingProp, noOfRows, pageCount } =
       this.state;
+    const { user } = this.props;
 
     return (
       <div>
@@ -154,9 +173,11 @@ class Movie extends Component {
             />
           </div>
           <div className="col">
-            <Link className="btn btn-primary new-movie-btn" to="./Movies/new">
-              New Movie
-            </Link>
+            {user && (
+              <Link className="btn btn-primary new-movie-btn" to="./Movies/new">
+                New Movie
+              </Link>
+            )}
 
             <SearchBox
               search={this.state.search}
@@ -167,7 +188,7 @@ class Movie extends Component {
               movieLength={length}
               moviesList={moviesList}
               handleHeart={this.handleHeart}
-              deleteMovie={this.deleteMovie}
+              deleteMovie={this.handleDelete}
               onSort={this.handleSorting}
               sortProperties={sortingProp}
             />
@@ -178,12 +199,12 @@ class Movie extends Component {
                 noOfRows={noOfRows}
                 page={pageCount}
               />
-              <button
+              {/* <button
                 onClick={this.handleReset}
                 className="btn btn-primary reset-btn "
               >
                 Reset
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

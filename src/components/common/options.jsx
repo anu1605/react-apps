@@ -9,16 +9,14 @@ const Options = ({ name, label, onChange, errors, options, value }) => {
 
       <select
         name={name}
-        className="custom-select"
-        id="inputGroupSelect02"
+        className="form-control"
         onChange={onChange}
+        value={value}
       >
-        <option hidden value={value}>
-          {value}
-        </option>
+        <option hidden value="" />
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option._id} value={option._id}>
+            {option.name}
           </option>
         ))}
       </select>

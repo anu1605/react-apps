@@ -37,6 +37,7 @@ class Form extends Component {
     e.preventDefault();
     const errors = this.validate();
     this.setState({ errors: errors || {} });
+
     if (errors) return;
     this.doSubmit();
   };
@@ -76,8 +77,8 @@ class Form extends Component {
       ></Input>
     );
   }
-  renderOptions(name, label) {
-    const { data, errors, options } = this.state;
+  renderOptions(name, label, options) {
+    const { data, errors } = this.state;
     return (
       <Options
         name={name}
