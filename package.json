@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "bootstrap": "^4.6.2",
+    "create-react-app": "^1.5.2",
     "font-awesome": "^4.7.0",
     "joi": "^17.11.0",
     "joi-browser": "13.4",
@@ -41,5 +42,9 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3"
   },
-  "proxy": "http://localhost:3900"
+  "proxy": "http://localhost:3900",
+  "engines": {
+    "node": "v18.18.2",
+    "npm": "10.2.4"
+  }
 }
