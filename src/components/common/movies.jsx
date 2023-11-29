@@ -48,9 +48,9 @@ class Movies extends Component {
   }
   render() {
     const { movieLength, moviesList, onSort, sortProperties } = this.props;
-    if (movieLength === 0) {
-      return <p>There are no movies in the database</p>;
-    }
+    // if (movieLength === 0) {
+    //   return <p>There are no movies in the database</p>;
+    // }
 
     return (
       <div className="movie-container">
